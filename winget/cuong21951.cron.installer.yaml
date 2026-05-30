@@ -7,8 +7,6 @@ Commands:
 Installers:
   - Architecture: x64
     InstallerUrl: https://github.com/cuong21951/cron/releases/download/v0.1.0/cron-0.1.0-x86_64-pc-windows-msvc.exe
-    # Replace with the SHA256 printed by the Release workflow (or run:
-    #   (Get-FileHash cron-0.1.0-x86_64-pc-windows-msvc.exe -Algorithm SHA256).Hash)
-    InstallerSha256: REPLACE_WITH_EXE_SHA256
+    InstallerSha256: 317C675CFAFD4A422417D47A39F1D1D15699AE06D5289248231465CE02A105FA
 ManifestType: installer
 ManifestVersion: 1.6.0
