@@ -1,8 +1,13 @@
 # Publishing to winget
 
-These manifests let users install with `winget install cuong21951.cron`. To get
-the package into the public winget catalog, it must be submitted (once per
-version) to [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs).
+The manifests in [`winget/`](../winget/) let users install with
+`winget install cuong21951.cron`. To get the package into the public winget
+catalog, it must be submitted (once per version) to
+[microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs).
+
+> Keep the `winget/` folder containing **only** the three manifest YAML files —
+> `winget validate` parses every file in the folder, so a stray `.md` will break
+> validation.
 
 ## Easiest path: `wingetcreate`
 
@@ -26,9 +31,9 @@ wingetcreate update cuong21951.cron --version 0.2.0 --urls <new-exe-url> --submi
 
 ## Manual path
 
-1. Cut a GitHub release (push a `v*` tag — the Release workflow builds the exe
+1. Cut a GitHub release (push a `v*` tag - the Release workflow builds the exe
    and prints its SHA256).
-2. Edit the three YAML files in this folder: set `PackageVersion`, the
+2. Edit the three YAML files in `winget/`: set `PackageVersion`, the
    `InstallerUrl`, and `InstallerSha256`.
 3. Validate locally:
    ```powershell

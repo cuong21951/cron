@@ -1,4 +1,3 @@
-# Installer manifest — https://aka.ms/winget-manifest.installer.1.6.0.schema.json
 PackageIdentifier: cuong21951.cron
 PackageVersion: 0.1.0
 InstallerType: portable

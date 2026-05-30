@@ -1,4 +1,3 @@
-# Locale manifest — https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
 PackageIdentifier: cuong21951.cron
 PackageVersion: 0.1.0
 PackageLocale: en-US
@@ -14,7 +13,7 @@ ShortDescription: A lightweight cron-like job scheduler for Windows and beyond.
 Description: |-
   cron schedules shell commands with the classic 5-field cron syntax and runs a
   tiny foreground scheduler that fires them as they come due. Single binary, no
-  background service, no database — just a small JSON crontab.
+  background service, no database - just a small JSON crontab.
 Moniker: cron
 Tags:
   - cron
