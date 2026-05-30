@@ -1,0 +1,27 @@
+[package]
+name = "cron"
+version = "0.1.0"
+edition = "2021"
+description = "A lightweight cron-like job scheduler for Windows and beyond."
+license = "MIT"
+repository = "https://github.com/cuong21951/cron"
+readme = "README.md"
+keywords = ["cron", "scheduler", "cli", "cron-job", "task"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "cron"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

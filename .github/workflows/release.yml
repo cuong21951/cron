@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Build release
+        run: cargo build --release --target x86_64-pc-windows-msvc
+
+      - name: Package
+        id: package
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          $exe = "target/x86_64-pc-windows-msvc/release/cron.exe"
+          $zip = "cron-$version-x86_64-pc-windows-msvc.zip"
+          Compress-Archive -Path $exe, README.md, LICENSE -DestinationPath $zip
+          $sha = (Get-FileHash $zip -Algorithm SHA256).Hash
+          Copy-Item $exe "cron-$version-x86_64-pc-windows-msvc.exe"
+          $exeSha = (Get-FileHash "cron-$version-x86_64-pc-windows-msvc.exe" -Algorithm SHA256).Hash
+          "version=$version"   | Out-File -Append $env:GITHUB_OUTPUT
+          "zip=$zip"           | Out-File -Append $env:GITHUB_OUTPUT
+          "zip_sha256=$sha"    | Out-File -Append $env:GITHUB_OUTPUT
+          "exe_sha256=$exeSha" | Out-File -Append $env:GITHUB_OUTPUT
+          Write-Host "zip   SHA256: $sha"
+          Write-Host "exe   SHA256: $exeSha"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            cron-${{ steps.package.outputs.version }}-x86_64-pc-windows-msvc.zip
+            cron-${{ steps.package.outputs.version }}-x86_64-pc-windows-msvc.exe
+          body: |
+            ## cron ${{ github.ref_name }}
+
+            ### Install via winget
+            ```powershell
+            winget install cuong21951.cron
+            ```
+
+            ### Portable
+            Download the `.exe` below, or unzip the archive, and run `cron`.
+
+            ---
+            **SHA256**
+            - zip: `${{ steps.package.outputs.zip_sha256 }}`
+            - exe: `${{ steps.package.outputs.exe_sha256 }}`
