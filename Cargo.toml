@@ -1,6 +1,6 @@
 [package]
 name = "cron"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "A lightweight cron-like job scheduler for Windows and beyond."
 license = "MIT"
@@ -18,6 +18,10 @@ clap = { version = "4", features = ["derive"] }
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+
+[target.'cfg(windows)'.dependencies]
+# Used for the single-instance named mutex guard in `cron run`.
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security", "Win32_System_Threading"] }
 
 [profile.release]
 strip = true

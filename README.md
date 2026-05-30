@@ -56,6 +56,21 @@ cron run
 cron path
 ```
 
+### Start automatically at logon (Windows)
+
+`cron run` is a foreground process. To have it start on its own — in *your*
+user session, so jobs run with your profile and Downloads — enable autostart:
+
+```powershell
+cron autostart            # start cron run hidden at each logon
+cron autostart --remove   # undo
+```
+
+This drops a hidden launcher in your Startup folder (no admin, no Task
+Scheduler) and appends scheduler output to `%APPDATA%\cron\scheduler.log`.
+Starting a second scheduler in the same session is a no-op, so a manual
+`cron run` won't double-fire jobs.
+
 ### Supported syntax
 
 Each of the five fields accepts:
@@ -95,12 +110,9 @@ Override with the `CRON_HOME` environment variable.
 
 ## Running automatically at startup (Windows)
 
-`cron run` is a foreground process. To keep it running across logins, register
-it with Task Scheduler once:
-
-```powershell
-schtasks /create /tn "cron" /tr "$env:LOCALAPPDATA\Microsoft\WinGet\Links\cron.exe run" /sc onlogon /rl highest
-```
+Use the built-in [`cron autostart`](#start-automatically-at-logon-windows) — it
+starts the scheduler in your own session at logon without admin rights or Task
+Scheduler.
 
 ## License
 
